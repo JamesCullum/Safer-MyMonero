@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!-- saved from url=(0023)#/ -->
+<html ng-app="thinWallet" class="ng-scope"><head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}</style>
+    
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <title ng-bind="$root.title + &#39; - MyMonero&#39;" class="ng-binding">Welcome - MyMonero</title>
+    <link rel="icon" href="./resources/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./resources/favicon.ico" type="image/x-icon">
+    <link href="./resources/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="./resources/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="./resources/print.css" media="print" rel="stylesheet" type="text/css">
+    <!--[if IE]>
+    <link href="css/ie.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+    <link href="./resources/normalize.css" rel="stylesheet">
+    <link href="./resources/webflow.css" rel="stylesheet">
+    <link href="./resources/moncrypt.webflow.css" rel="stylesheet">
+
+    <style>
+        .move-text-div {
+            word-wrap: break-word;
+        }
+    </style>
+
+    <script src="./resources/jquery.min.js"></script>
+    <script src="./resources/fastclick.js"></script>
+    <script src="./resources/angular.min.js"></script>
+    <script src="./resources/angular-route.min.js"></script>
+    <script src="./resources/ng-infinite-scroll.min.js"></script>
+    <script src="./resources/angular-idle.min.js"></script>
+    <script src="./resources/ZeroClipboard.min.js"></script>
+    <script src="./resources/ng-clip.min.js"></script>
+    <script src="./resources/moment-with-locales.min.js"></script>
+    <script src="./resources/webflow.js"></script>
+    <!--[if lte IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+    <script src="./resources/crc32.js"></script>
+    <script src="./resources/mnemonic.js"></script>
+    <script src="./resources/qrcode.min.js"></script>
+    <script src="./resources/biginteger.js"></script>
+    <script src="./resources/config.js"></script>
+    <script src="./resources/crypto.js"></script>
+    <script src="./resources/base58.js"></script>
+    <script src="./resources/cn_util.js"></script>
+    <script src="./resources/app.js"></script>
+    <script src="./resources/money.js"></script>
+    <script src="./resources/time.js"></script>
+    <script src="./resources/payment_uri.js"></script>
+    <script src="./resources/account.js"></script>
+    <script src="./resources/modal.js"></script>
+    <script src="./resources/top_bar.js"></script>
+    <script src="./resources/account_overview.js"></script>
+    <script src="./resources/generate_wallet.js"></script>
+    <script src="./resources/latest_blocks.js"></script>
+    <script src="./resources/latest_transactions.js"></script>
+    <script src="./resources/login.js"></script>
+    <script src="./resources/import_wallet.js"></script>
+    <script src="./resources/receive_coins.js"></script>
+    <script src="./resources/send_coins.js"></script>
+    <script src="./resources/temp.js"></script>
+    <script src="./resources/transactions.js"></script>
+    <script src="./resources/vanity_address.js"></script>
+    <script src="./resources/account(1).js"></script>
+    <script src="./resources/clipboard.js"></script>
+    <script src="./resources/scroll.js"></script>
+    <script src="./resources/qr_code.js"></script>
+    <script src="./resources/modal(1).js"></script>
+    <script src="./resources/forms.js"></script>
+    <script src="./resources/routes.js"></script>
+</head>
+
+<body ng-controller="AccountCtrl">
+
+<div ng-include src="getModalURL()"></div>
+
+<div class="w-nav nav" data-collapse="small" data-animation="default" data-duration="400" data-contain="1">
+    <div class="w-container">
+        <nav class="w-nav-menu nav-menu" role="navigation">
+            <a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage('create-your-account')" href="#/create-your-account">CREATE A NEW ACCOUNT</a>
+			<a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage('security')" href="#/security">SECURITY</a>
+            <a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage('support')" href="#/support">SUPPORT</a>
+            <a class="w-nav-link nav-link pointer login" ng-show="!loggedIn()" data-ix="display-login" show-modal="login">LOG IN</a>
+
+            <div class="w-dropdown" ng-show="loggedIn()" data-delay="0">
+                <div class="w-dropdown-toggle dropdown-toggle">
+                    <div>Account</div>
+                    <div class="w-icon-dropdown-toggle arrow-icon-style"></div>
+                </div>
+                <nav class="w-dropdown-list dropdown-rounded">
+                    <a class="w-dropdown-link dropdown-styling pointer top" data-ix="display-login-key-review" show-modal="review-login-key">Review Login Key</a>
+                    <a class="w-dropdown-link dropdown-styling pointer" show-modal="import-wallet" ng-hide="account_scan_start_height == 0">Import Transactions</a>
+                    <a class="w-dropdown-link dropdown-styling pointer bottom" data-ix="display-review-account" show-modal="review-account-details">Account Details</a>
+                </nav>
+            </div>
+			<a class="w-nav-link nav-link" ng-show="loggedIn()" ng-class="currentPage('security')" href="#/security">Security</a>
+            <a class="w-nav-link nav-link" ng-show="loggedIn()" ng-class="currentPage('support')" href="#/support">Support</a>
+            <a class="w-nav-link nav-link" ng-show="loggedIn()" ng-class="currentPage('-')" ng-click="logout()" href="#/">Logout</a>
+        </nav>
+        <div class="w-nav-button menu-btn">
+            <div class="w-icon-nav-menu"></div>
+        </div>
+        <a class="w-nav-brand brand-box" ng-class="currentPage('overview')"  href="#/overview">
+            <img src="resources/whitelogo.png" width="200" alt="5447353bc16f2af2595d1721_whitelogo.png">
+        </a>
+    </div>
+</div>
+
+<section class="main-section">
+    <div ng-view></div>
+</section>
+
+<div class="footer-section">
+    <div class="lower-footer">
+        <div class="w-container">
+            <div class="w-row">
+                <div class="w-col w-col-4 middle-footer">
+                    <div class="copyright-text">Copyright, MyMonero 2016</div>
+                </div>
+                <div class="w-col w-col-4 middle-footer social">
+                    <a class="w-inline-block links-div right-social" href="http://www.twitter.com/mymonero" target="_blank">
+                        <img class="social-icon" src="resources/twit-icon.png" width="28" alt="5451ff22b51342c226604f66_twit-icon.png">
+                    </a>
+                </div>
+                <div class="w-col w-col-4 bottom-footer-column">
+                    <div class="w-clearfix footer-link">
+                        <a class="footer-link" href="#/privacy-policy" ng-class="currentPage('privacy-policy')">Privacy Policy</a>
+                    </div>
+                    <div class="w-clearfix footer-link">
+                        <a class="footer-link" href="#/terms" ng-class="currentPage('terms')">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
