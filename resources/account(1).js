@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015, MyMonero.com
+// Copyright (c) 2014-2017, MyMonero.com
 // 
 // All rights reserved.
 // 
@@ -26,7 +26,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-thinwalletCtrls.controller('AccountCtrl', function($scope, $rootScope, $http, $q, $interval, AccountService, ModalService, EVENT_CODES) {
+thinwalletCtrls.controller('AccountCtrl', function($scope, $rootScope, $http, $q, $interval, AccountService, EVENT_CODES) {
     "use strict";
     $scope.loggedIn = AccountService.loggedIn;
     $scope.logout = AccountService.logout;
@@ -42,7 +42,6 @@ thinwalletCtrls.controller('AccountCtrl', function($scope, $rootScope, $http, $q
 
     $scope.transactions = [];
     $scope.blockchain_height = 0;
-	var filterAPI = /([^\w{}\s":,\[\]\-])/;
 
     $scope.tx_is_confirmed = function(tx) {
         return ($scope.blockchain_height - tx.height) > config.txMinConfirms;
@@ -87,7 +86,6 @@ thinwalletCtrls.controller('AccountCtrl', function($scope, $rootScope, $http, $q
                 address: AccountService.getAddress(),
                 view_key: AccountService.getViewKey()
             }).success(function(data) {
-				if(filterAPI.test(data)) return ModalService.show('malicious');
                 var promises = [];
                 for (var i = 0; i < (data.spent_outputs || []).length; ++i) {
                     var deferred = $q.defer();
@@ -99,6 +97,7 @@ thinwalletCtrls.controller('AccountCtrl', function($scope, $rootScope, $http, $q
                                 spent_output.out_index
                             );
                             if (spent_output.key_image !== key_image) {
+                                console.log('Output used as mixin (' + spent_output.key_image + '/' + key_image + ')');
                                 data.total_sent = new JSBigInt(data.total_sent).subtract(spent_output.amount);
                             }
                             deferred.resolve();
@@ -123,7 +122,6 @@ thinwalletCtrls.controller('AccountCtrl', function($scope, $rootScope, $http, $q
         if (AccountService.loggedIn()) {
             $http.post(config.apiUrl + 'get_address_txs', AccountService.getAddressAndViewKey())
                 .success(function(data) {
-					if(filterAPI.test(data)) return ModalService.show('malicious');
                     $scope.account_scanned_height = data.scanned_height || 0;
                     $scope.account_scanned_block_height = data.scanned_block_height || 0;
                     $scope.account_scan_start_height = data.start_height || 0;
@@ -138,6 +136,7 @@ thinwalletCtrls.controller('AccountCtrl', function($scope, $rootScope, $http, $q
                                     transactions[i].spent_outputs[j].out_index
                                 );
                                 if (transactions[i].spent_outputs[j].key_image !== key_image) {
+                                    console.log('Output used as mixin, ignoring (' + transactions[i].spent_outputs[j].key_image + '/' + key_image + ')');
                                     transactions[i].total_sent = new JSBigInt(transactions[i].total_sent).subtract(transactions[i].spent_outputs[j].amount).toString();
                                     transactions[i].spent_outputs.splice(j, 1);
                                     j--;

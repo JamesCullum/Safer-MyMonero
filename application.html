@@ -7,8 +7,9 @@
     <meta name="format-detection" content="telephone=no">
 
     <title ng-bind="$root.title + &#39; - MyMonero&#39;" class="ng-binding">Welcome - MyMonero</title>
-    <link rel="icon" href="./resources/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="./resources/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="250x250" href="https://mymonero.com/img/monero.png">
+    <link rel="icon" href="https://mymonero.com/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://mymonero.com/favicon.ico" type="image/x-icon">
     <link href="./resources/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
     <link href="./resources/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="./resources/print.css" media="print" rel="stylesheet" type="text/css">
@@ -43,6 +44,8 @@
     <script src="./resources/biginteger.js"></script>
     <script src="./resources/config.js"></script>
     <script src="./resources/crypto.js"></script>
+    <script src="./resources/sha3.js"></script>
+    <script src="./resources/nacl-fast-cn.js"></script>
     <script src="./resources/base58.js"></script>
     <script src="./resources/cn_util.js"></script>
     <script src="./resources/app.js"></script>
@@ -72,19 +75,20 @@
     <script src="./resources/routes.js"></script>
 </head>
 
-<body ng-controller="AccountCtrl">
+<body ng-controller="AccountCtrl" style="" class="ng-scope">
 
+<!-- ngInclude:  -->
 <div ng-include src="getModalURL()"></div>
 
 <div class="w-nav nav" data-collapse="small" data-animation="default" data-duration="400" data-contain="1">
     <div class="w-container">
         <nav class="w-nav-menu nav-menu" role="navigation">
-            <a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage('create-your-account')" href="#/create-your-account">CREATE A NEW ACCOUNT</a>
-			<a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage('security')" href="#/security">SECURITY</a>
-            <a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage('support')" href="#/support">SUPPORT</a>
-            <a class="w-nav-link nav-link pointer login" ng-show="!loggedIn()" data-ix="display-login" show-modal="login">LOG IN</a>
+            <a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage(&#39;create-your-account&#39;)" href="#/create-your-account" style="max-width: 940px;">CREATE A NEW ACCOUNT</a>
+			<a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage(&#39;security&#39;)" href="#/security">SECURITY</a>
+            <a class="w-nav-link nav-link" ng-show="!loggedIn()" ng-class="currentPage(&#39;support&#39;)" href="#/support" style="max-width: 940px;">SUPPORT</a>
+            <a class="w-nav-link nav-link pointer login" ng-show="!loggedIn()" data-ix="display-login" show-modal="login" style="max-width: 940px;">LOG IN</a>
 
-            <div class="w-dropdown" ng-show="loggedIn()" data-delay="0">
+            <div class="w-dropdown ng-hide" ng-show="loggedIn()" data-delay="0" style="max-width: 940px;">
                 <div class="w-dropdown-toggle dropdown-toggle">
                     <div>Account</div>
                     <div class="w-icon-dropdown-toggle arrow-icon-style"></div>
@@ -95,21 +99,29 @@
                     <a class="w-dropdown-link dropdown-styling pointer bottom" data-ix="display-review-account" show-modal="review-account-details">Account Details</a>
                 </nav>
             </div>
-			<a class="w-nav-link nav-link" ng-show="loggedIn()" ng-class="currentPage('security')" href="#/security">Security</a>
-            <a class="w-nav-link nav-link" ng-show="loggedIn()" ng-class="currentPage('support')" href="#/support">Support</a>
-            <a class="w-nav-link nav-link" ng-show="loggedIn()" ng-class="currentPage('-')" ng-click="logout()" href="#/">Logout</a>
+            <a class="w-nav-link nav-link ng-hide" ng-show="loggedIn()" ng-class="currentPage(&#39;support&#39;)" href="#/support" style="max-width: 940px;">Support</a>
+            <a class="w-nav-link nav-link ng-hide w--current" ng-show="loggedIn()" ng-class="currentPage(&#39;-&#39;)" ng-click="logout()" href="#/" style="max-width: 940px;">Logout</a>
         </nav>
         <div class="w-nav-button menu-btn">
             <div class="w-icon-nav-menu"></div>
         </div>
-        <a class="w-nav-brand brand-box" ng-class="currentPage('overview')"  href="#/overview">
-            <img src="resources/whitelogo.png" width="200" alt="5447353bc16f2af2595d1721_whitelogo.png">
+        <a class="w-nav-brand brand-box w--current" ng-class="currentPage(&#39;home&#39;)" href="#/home">
+            <img src="./resources/whitelogo.png" width="200" alt="5447353bc16f2af2595d1721_whitelogo.png">
         </a>
     </div>
-</div>
+<div class="w-nav-overlay" data-wf-ignore=""></div></div>
 
 <section class="main-section">
-    <div ng-view></div>
+    <!-- ngView:  --><div ng-view="" class="ng-scope"><div class="body-section steps-page ng-scope">
+  <div class="header-section">
+    <div class="w-container home-container">
+      <div class="home-header">The Simplest Way to Use Monero</div>
+      <div class="home-subhead">Send and receive Monero safely and securely, anywhere and any time</div>
+      <a class="create-account-btn" href="#/create-your-account">Create an Account</a>
+    </div>
+  </div>
+</div>
+</div>
 </section>
 
 <div class="footer-section">
@@ -121,15 +133,15 @@
                 </div>
                 <div class="w-col w-col-4 middle-footer social">
                     <a class="w-inline-block links-div right-social" href="http://www.twitter.com/mymonero" target="_blank">
-                        <img class="social-icon" src="resources/twit-icon.png" width="28" alt="5451ff22b51342c226604f66_twit-icon.png">
+                        <img class="social-icon" src="./resources/twit-icon.png" width="28" alt="5451ff22b51342c226604f66_twit-icon.png">
                     </a>
                 </div>
                 <div class="w-col w-col-4 bottom-footer-column">
                     <div class="w-clearfix footer-link">
-                        <a class="footer-link" href="#/privacy-policy" ng-class="currentPage('privacy-policy')">Privacy Policy</a>
+                        <a class="footer-link" href="#/privacy-policy" ng-class="currentPage(&#39;privacy-policy&#39;)">Privacy Policy</a>
                     </div>
                     <div class="w-clearfix footer-link">
-                        <a class="footer-link" href="#/terms" ng-class="currentPage('terms')">Terms of Use</a>
+                        <a class="footer-link" href="#/terms" ng-class="currentPage(&#39;terms&#39;)">Terms of Use</a>
                     </div>
                 </div>
             </div>
@@ -137,5 +149,4 @@
     </div>
 </div>
 </body>
-
 </html>

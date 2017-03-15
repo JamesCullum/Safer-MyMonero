@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015, MyMonero.com
+// Copyright (c) 2014-2017, MyMonero.com
 // 
 // All rights reserved.
 // 
@@ -64,7 +64,7 @@ thinwalletApp.config(function ($idleProvider, $keepaliveProvider, ngClipProvider
     $idleProvider.warningDuration(config.idleWarningDuration);
     $keepaliveProvider.interval(10);
 
-    ngClipProvider.setPath("../resources/ZeroClipboard.swf");
+    ngClipProvider.setPath("../bower_components/zeroclipboard/dist/ZeroClipboard.swf");
 });
 
 thinwalletApp.run(function ($rootScope, $route, $location, $http, $timeout, $idle, EVENT_CODES, AccountService, ModalService) {
@@ -100,6 +100,7 @@ thinwalletApp.run(function ($rootScope, $route, $location, $http, $timeout, $idl
     $rootScope.parseMoney = cnUtil.parseMoney;
 
     $rootScope.currentPage = function (page, c) {
+        c = c || "w--current";
         return ((($route.current || {}).originalPath + '').trim() === ('/' + page).trim()) ? c : '';
     };
 

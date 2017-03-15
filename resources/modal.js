@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015, MyMonero.com
+// Copyright (c) 2014-2017, MyMonero.com
 // 
 // All rights reserved.
 // 
@@ -33,7 +33,7 @@ thinwalletServices
         var currentModal = '';
 
         modalService.show = function (modal_name) {
-            console.log("Showing modal", modal_name);
+            console.log("Showing modal: " + modal_name);
             currentModal = modal_name;
         };
 
@@ -49,8 +49,8 @@ thinwalletServices
         };
 
         modalService.getModalURL = function () {
-			if (!currentModal) return '';
-            return "/modals/" + currentModal + ".html?1";
+            if (!currentModal) return '';
+            return "modals/" + currentModal + ".html?1";
         };
 
         return modalService;

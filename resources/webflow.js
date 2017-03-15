@@ -1168,7 +1168,7 @@ Webflow.define('forms', function($, _) {
     // Handle form submission for Webflow forms
     $doc.on('submit', namespace + ' form', function(evt) {
       var data = $.data(this, namespace);
-      if (typeof data !== "undefined" && data.hasOwnProperty("handler") && data.handler) {
+      if (data.handler) {
         data.evt = evt;
         data.handler(data);
       }
@@ -1791,11 +1791,6 @@ Webflow.define('links', function($, _) {
     for (var i = 0; i < links.length; ++i) {
       select(links[i]);
     }
-	$(document).on("click", ".w-nav-link, .w-nav-brand", function() {
-		for (var i = 0; i < links.length; ++i) {
-		  select(links[i]);
-		}
-	});
 
     // Listen for scroll if any anchors exist
     if (anchors.length) {
